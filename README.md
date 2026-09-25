@@ -21,3 +21,10 @@ The main trade-off is that 64-bit integers are handled with `BigInt`, which is s
 - Reading or writing past the end of the buffer throws a `RangeError`.
 - Negative 64-bit integers are written in two's complement form.
 - All functions assume the offset is a non-negative integer; otherwise a `RangeError` is thrown.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
